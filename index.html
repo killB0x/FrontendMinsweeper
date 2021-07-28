@@ -5,11 +5,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Frontend Minesweeper</title>
 </head>
 
 <body>
+    <h1>Frontend Minesweeper</h1>
+    <div class="board">
+        <img class="logo" src="https://image.flaticon.com/icons/png/512/5208/5208505.png" alt="mine_image">
+        <form>
+            <select id="difficulty" class="settings">
+                <option value="easy">Easy</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="difficult">Difficult</option>
+            </select>
+            <div>
+                <input type="submit" value="New Game" class="newGame">
+            </div>
+
+        </form>
+    </div>
     <script src="scripts/gamescripts.js"></script>
+    <script src="scripts/eventlisteners.js"></script>
 </body>
 
 </html>
