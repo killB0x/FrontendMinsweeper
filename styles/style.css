@@ -2,6 +2,12 @@ h1 {
     text-align: center;
 }
 
+td {
+    border: 1px solid black;
+    height: 2rem;
+    width: 2rem;
+    background-color:gainsboro;
+}
 .logo {
     width:15rem;
     margin-top: 4rem;
@@ -12,7 +18,7 @@ h1 {
     text-align: center;
     margin: 2rem 20rem;
     background-color: rgb(96, 110, 110);
-    height: 40rem;
+    height: 45rem;
     border: 3px solid black;
 }
 
@@ -29,4 +35,18 @@ h1 {
     font-size: 1.5rem;
     padding: 1rem;
     width: 15rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.mineTable {
+    margin: 5rem auto 0 auto;
+    border-collapse: collapse;
+}
+
+.cellImage {
+    height: 2rem;
+    width: 2rem;
 }

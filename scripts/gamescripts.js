@@ -14,7 +14,7 @@ const generateTable = (height, length, bombCount) => {
     console.log(shuffle);
     for (let i = 0; i < bombCount; i++) {
         console.log(shuffle[i], height);
-        table[Math.floor(shuffle[i] / height)][shuffle[i] % length] = 'B';
+        table[Math.floor(shuffle[i] / length)][shuffle[i] % length] = 'B';
     }
     fillNull();
     fillNumbers();
@@ -72,3 +72,24 @@ const countBombs = (x, y) => {
     }
     return bombCount;
 };
+
+//add images to the game board
+const addImages = () => {
+    console.log(table);
+    for (let i = 0; i < table.length; i++) {
+        for (let j = 0; j < table[i].length; j++) {
+            if (table[i][j] !== null && table[i][j] != 0) {
+                let cell = document.querySelector(`#cell${i * table[i].length + j}`);
+                let img = document.createElement('img');
+                if (table[i][j] == 'B') {
+                    img.setAttribute('src', 'images/mine.png');
+                } else {
+                    img.setAttribute('src', `images/${table[i][j]}.png`);
+                }
+
+                img.setAttribute('class', 'cellImage');
+                cell.append(img);
+            }
+        }
+    }
+}
