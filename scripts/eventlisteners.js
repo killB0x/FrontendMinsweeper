@@ -54,18 +54,22 @@ form.addEventListener('submit', (e) => {
 })
 
 const addCellEventListeners = () => {
-    const table = document.querySelector('table');
-    console.log(table);
-    table.addEventListener('click', (e) => {
+    const gameTable = document.querySelector('table');
+    console.log(gameTable);
+    gameTable.addEventListener('click', (e) => {
         if (e.target.classList.contains('undiscovered')) {
             console.log(e);
-            let img1 = e.target.previousSibling;
+            /*let img1 = e.target.previousSibling;
             let img2 = e.target;
             img2.classList.remove('undiscovered');
             img2.classList.remove('visible');
             img2.classList.add('hidden');
             img1.classList.remove('hidden');
-            img1.classList.add('visible');
+            img1.classList.add('visible');*/
+            let id = e.target.parentNode.getAttribute('id');
+            id = id.substring(4, id.length)
+            console.log(table[(Math.floor(id / table[0].length))][id % table[0].length]);
+            uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
         }
     })
 }

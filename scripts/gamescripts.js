@@ -18,15 +18,19 @@ const generateTable = (height, length, bombCount) => {
     }
     fillNull();
     fillNumbers();
-    fillInitialTable();
+    fillInitialTable(height, length);
 };
 
 //generate the table with the discovered elements
 const fillInitialTable = (height, length) => {
+    discovered = new Array(height);
+    for (let i = 0; i < height; i++) {
+        discovered[i] = new Array(length);
+    }
     for (let i = 0; i < height; i++) {
         for (let j = 0; j < length; j++) {
-            // C represents a covered state
-            discovered[i][j] = 'C';
+            // 0 represents a covered state
+            discovered[i][j] = 0;
         }
     }
 }
@@ -108,4 +112,39 @@ const addImages = () => {
             }
         }
     }
-}
+};
+
+//updates the discovered tiles
+const uncoverAll = (x, y) => {
+    if (table[x] == undefined || table[x][y] == undefined || table[x][y] == 'B') {
+        if (table[x][y] == 'B') {
+            console.log('B');
+        }
+        return;
+    }
+    discovered[x][y] = 1;
+    if (table[x][y] != 0) {
+        replaceStatus(x, y);
+        return;
+    }
+    replaceStatus(x, y);
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            if (discovered[x + i] != undefined && discovered[x + i][y + j] != undefined && discovered[x + i][y + j] == 0) {
+                uncoverAll(x + i, y + j)
+            }
+        }
+    }
+};
+
+//helper method to replace the visual status of the cell when clicked
+const replaceStatus = (x, y) => {
+    const element = document.querySelector(`#cell${x * table[x].length + y}`);
+    let img1 = element.childNodes[0];
+    let img2 = element.childNodes[1];
+    img2.classList.remove('undiscovered');
+    img2.classList.remove('visible');
+    img2.classList.add('hidden');
+    img1.classList.remove('hidden');
+    img1.classList.add('visible');
+};
