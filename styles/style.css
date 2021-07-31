@@ -6,7 +6,17 @@ td {
     border: 1px solid black;
     height: 2rem;
     width: 2rem;
-    background-color:gainsboro;
+    font-size: 0;
+    background-color:#b9b9b9;
+    padding:0;
+    margin: 0;
+}
+img {
+    padding: 0;
+    margin: 0;
+}
+table {
+    border-spacing: 0;
 }
 .logo {
     width:15rem;
@@ -49,4 +59,12 @@ td {
 .cellImage {
     height: 2rem;
     width: 2rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display:inline;
 }

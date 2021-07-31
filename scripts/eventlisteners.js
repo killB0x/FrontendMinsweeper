@@ -50,4 +50,22 @@ form.addEventListener('submit', (e) => {
     gameTable += '</table>';
     board.innerHTML = gameTable;
     addImages();
+    addCellEventListeners();
 })
+
+const addCellEventListeners = () => {
+    const table = document.querySelector('table');
+    console.log(table);
+    table.addEventListener('click', (e) => {
+        if (e.target.classList.contains('undiscovered')) {
+            console.log(e);
+            let img1 = e.target.previousSibling;
+            let img2 = e.target;
+            img2.classList.remove('undiscovered');
+            img2.classList.remove('visible');
+            img2.classList.add('hidden');
+            img1.classList.remove('hidden');
+            img1.classList.add('visible');
+        }
+    })
+}

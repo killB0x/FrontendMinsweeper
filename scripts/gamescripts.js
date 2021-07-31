@@ -1,5 +1,5 @@
 let table;
-
+let discovered;
 //generate the table
 const generateTable = (height, length, bombCount) => {
     table = new Array(height);
@@ -18,8 +18,18 @@ const generateTable = (height, length, bombCount) => {
     }
     fillNull();
     fillNumbers();
+    fillInitialTable();
 };
 
+//generate the table with the discovered elements
+const fillInitialTable = (height, length) => {
+    for (let i = 0; i < height; i++) {
+        for (let j = 0; j < length; j++) {
+            // C represents a covered state
+            discovered[i][j] = 'C';
+        }
+    }
+}
 
 //shuffle the array
 const arrayShuffle = arrayContent => {
@@ -78,17 +88,23 @@ const addImages = () => {
     console.log(table);
     for (let i = 0; i < table.length; i++) {
         for (let j = 0; j < table[i].length; j++) {
-            if (table[i][j] !== null && table[i][j] != 0) {
+            if (table[i][j] !== null) {
                 let cell = document.querySelector(`#cell${i * table[i].length + j}`);
-                let img = document.createElement('img');
+                let img1 = document.createElement('img');
+                let img2 = document.createElement('img');
                 if (table[i][j] == 'B') {
-                    img.setAttribute('src', 'images/mine.png');
+                    img1.setAttribute('src', 'images/mine.png');
                 } else {
-                    img.setAttribute('src', `images/${table[i][j]}.png`);
+                    img1.setAttribute('src', `images/${table[i][j]}.png`);
                 }
-
-                img.setAttribute('class', 'cellImage');
-                cell.append(img);
+                img1.setAttribute('class', 'cellImage');
+                img1.classList.add('hidden');
+                img2.setAttribute('src', 'images/notOpen.png');
+                img2.setAttribute('class', 'cellImage');
+                img2.classList.add('visible');
+                img2.classList.add('undiscovered');
+                cell.append(img1);
+                cell.append(img2);
             }
         }
     }
