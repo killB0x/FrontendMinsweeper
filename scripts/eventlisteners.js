@@ -57,19 +57,29 @@ const addCellEventListeners = () => {
     const gameTable = document.querySelector('table');
     console.log(gameTable);
     gameTable.addEventListener('click', (e) => {
+        console.log(e.button);
         if (e.target.classList.contains('undiscovered')) {
             console.log(e);
-            /*let img1 = e.target.previousSibling;
-            let img2 = e.target;
-            img2.classList.remove('undiscovered');
-            img2.classList.remove('visible');
-            img2.classList.add('hidden');
-            img1.classList.remove('hidden');
-            img1.classList.add('visible');*/
             let id = e.target.parentNode.getAttribute('id');
             id = id.substring(4, id.length)
             console.log(table[(Math.floor(id / table[0].length))][id % table[0].length]);
             uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
+        }
+    })
+    gameTable.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        if (e.target.classList.contains('undiscovered')) {
+            let cell = e.target;
+            console.log(cell);
+            if (cell.classList.contains('mine')) {
+                cell.classList.remove('mine');
+                cell.classList.add('nomine');
+                cell.setAttribute('src', 'images/notOpen.png');
+            } else {
+                cell.classList.remove('nomine');
+                cell.classList.add('mine');
+                cell.setAttribute('src', 'images/flag.png');
+            }
         }
     })
 }
