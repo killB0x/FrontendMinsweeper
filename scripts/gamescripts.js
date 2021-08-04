@@ -1,5 +1,6 @@
 let table;
 let discovered;
+let firstClick = true;
 //generate the table
 const generateTable = (height, length, bombCount) => {
     table = new Array(height);
@@ -19,6 +20,7 @@ const generateTable = (height, length, bombCount) => {
     fillNull();
     fillNumbers();
     fillInitialTable(height, length);
+    console.log(table);
 };
 
 //generate the table with the discovered elements
@@ -114,12 +116,25 @@ const addImages = () => {
     }
 };
 
+//add images to the game board
+const removeImages = () => {
+    console.log(table);
+    for (let i = 0; i < table.length; i++) {
+        for (let j = 0; j < table[i].length; j++) {
+            if (table[i][j] !== null) {
+                let cell = document.querySelector(`#cell${i * table[i].length + j}`);
+                cell.innerHTML = "";
+            }
+        }
+    }
+};
+
 //updates the discovered tiles
 const uncoverAll = (x, y) => {
-    if (table[x] == undefined || table[x][y] == undefined || table[x][y] == 'B') {
-        if (table[x][y] == 'B') {
-            console.log('B');
-        }
+    let cell = document.querySelector(`#cell${x * table[x].length + y}`);
+    cell = cell.childNodes[1];
+    if (table[x] == undefined || table[x][y] == undefined || table[x][y] == 'B' || cell.classList.contains('mine')) {
+        console.log(cell);
         return;
     }
     discovered[x][y] = 1;
@@ -148,3 +163,22 @@ const replaceStatus = (x, y) => {
     img1.classList.remove('hidden');
     img1.classList.add('visible');
 };
+
+const revealTiles = () => {
+    for (let i = 0; i < table.length; i++) {
+        for (let j = 0; j < table[i].length; j++) {
+            replaceStatus(i, j);
+        }
+    }
+}
+
+const checkEnd = () => {
+    for (let i = 0; i < table.length; i++) {
+        for (let j = 0; j < table[i].length; j++) {
+            if (!discovered[i][j] && table[i][j] != 'B') {
+                return false;
+            }
+        }
+    }
+    return true;
+}

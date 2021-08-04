@@ -27,7 +27,7 @@ table {
 .board {
     text-align: center;
     margin: 2rem 20rem;
-    background-color: rgb(96, 110, 110);
+    background-color: rgb(148, 167, 167);
     height: 45rem;
     border: 3px solid black;
 }
@@ -67,4 +67,20 @@ table {
 
 .visible {
     display:inline;
+}
+
+.gameOver {
+    color: red;
+    font-family: 'Common Pixel', sans-serif;
+    font-size: 2.5rem;
+}
+
+.endCell {
+    background-color:red;
+}
+
+.youWin {
+    color: green;
+    font-family: 'Common Pixel', sans-serif;
+    font-size: 2.5rem;
 }

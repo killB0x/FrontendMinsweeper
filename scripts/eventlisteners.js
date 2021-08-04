@@ -58,14 +58,33 @@ const addCellEventListeners = () => {
     console.log(gameTable);
     gameTable.addEventListener('click', (e) => {
         console.log(e.button);
-        if (e.target.classList.contains('undiscovered')) {
+        if (e.target.classList.contains('undiscovered') && !e.target.classList.contains('mine')) {
             console.log(e);
             let id = e.target.parentNode.getAttribute('id');
-            id = id.substring(4, id.length)
+            id = id.substring(4, id.length);
             console.log(table[(Math.floor(id / table[0].length))][id % table[0].length]);
             uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
+            if (table[(Math.floor(id / table[0].length))][id % table[0].length] == 'B') {
+                if (firstClick) {
+                    table[(Math.floor(id / table[0].length))][id % table[0].length] = null;
+                    firstClick = false;
+                    fillNumbers();
+                    removeImages();
+                    addImages();
+                    console.log(table);
+                    uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
+                } else {
+                    e.target.parentNode.classList.add('endCell');
+                    board.innerHTML += '<div class = "gameOver"> GAME OVER! </div>';
+                    revealTiles();
+                }
+            } else if (checkEnd()) {
+                board.innerHTML += '<div class = "youWin"> YOU WIN! </div>';
+                revealTiles();
+            }
         }
     })
+
     gameTable.addEventListener('contextmenu', e => {
         e.preventDefault();
         if (e.target.classList.contains('undiscovered')) {
