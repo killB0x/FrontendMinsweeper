@@ -67,7 +67,6 @@ const addCellEventListeners = () => {
             if (table[(Math.floor(id / table[0].length))][id % table[0].length] == 'B') {
                 if (firstClick) {
                     table[(Math.floor(id / table[0].length))][id % table[0].length] = null;
-                    firstClick = false;
                     fillNumbers();
                     removeImages();
                     addImages();
@@ -83,6 +82,7 @@ const addCellEventListeners = () => {
                 revealTiles();
             }
         }
+        firstClick = false;
     })
 
     gameTable.addEventListener('contextmenu', e => {
