@@ -74,11 +74,11 @@ const addCellEventListeners = () => {
                     uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
                 } else {
                     e.target.parentNode.classList.add('endCell');
-                    board.innerHTML += '<div class = "gameOver"> GAME OVER! </div>';
+                    board.innerHTML += '<div class = "gameOver"> GAME OVER! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a>';
                     revealTiles();
                 }
             } else if (checkEnd()) {
-                board.innerHTML += '<div class = "youWin"> YOU WIN! </div>';
+                board.innerHTML += '<div class = "youWin"> YOU WIN! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a>';
                 revealTiles();
             }
         }

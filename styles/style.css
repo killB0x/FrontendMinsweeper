@@ -2,6 +2,12 @@ h1 {
     text-align: center;
 }
 
+a {
+    padding:0;
+    margin:0;
+    text-decoration: none;
+}
+
 td {
     border: 1px solid black;
     height: 2rem;
@@ -26,6 +32,7 @@ table {
 
 .board {
     text-align: center;
+    position:relative;
     margin: 2rem 20rem;
     background-color: rgb(148, 167, 167);
     height: 45rem;
@@ -52,8 +59,11 @@ table {
 }
 
 .mineTable {
-    margin: 5rem auto 0 auto;
     border-collapse: collapse;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
 }
 
 .cellImage {
@@ -83,4 +93,20 @@ table {
     color: green;
     font-family: 'Common Pixel', sans-serif;
     font-size: 2.5rem;
+}
+
+.homeButton {
+    font-family: Arial, sans-serif;
+    margin: 2rem auto;
+    background-color: #f0f0f0;
+    font-size: 1.5rem;
+    color: black;
+    border: 3px solid black;
+    font-size: 1.5rem;
+    padding: 1rem;
+    width: 15rem;
+}
+
+.center {
+    margin: auto;
 }
