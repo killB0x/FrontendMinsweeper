@@ -59,17 +59,18 @@ const addCellEventListeners = () => {
     console.log(gameTable);
     gameTable.addEventListener('mousedown', (e) => {
         e.preventDefault();
-        if (e.target.classList.contains('undiscovered') && e.button != 2 && !e.target.classList.contains('mine')) {
+        if (!animation && e.target.classList.contains('undiscovered') && e.button != 2 && !e.target.classList.contains('mine')) {
             e.target.setAttribute('src', 'images/0.png');
         }
     });
     webPage.addEventListener('mouseup', (e) => {
-        //console.log
-        syncUndiscoveredTiles();
+        if (!animation) {
+            syncUndiscoveredTiles();
+        }
     });
     gameTable.addEventListener('click', (e) => {
         console.log(e.button);
-        if (e.target.classList.contains('undiscovered') && !e.target.classList.contains('mine')) {
+        if (!animation && e.target.classList.contains('undiscovered') && !e.target.classList.contains('mine')) {
             console.log(e);
             let id = e.target.parentNode.getAttribute('id');
             id = id.substring(4, id.length);
@@ -85,12 +86,13 @@ const addCellEventListeners = () => {
                     uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
                 } else {
                     e.target.parentNode.classList.add('endCell');
-                    revealTilesLose();
-                    board.innerHTML += '<div class = "endScreen"><div class = "gameOver"> GAME OVER! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
+                    //revealTilesLose();
+                    revealMines(Math.floor(id / table[0].length), id % table[0].length);
+                    //board.innerHTML += '<div class = "endScreen"><div class = "gameOver"> GAME OVER! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
                 }
             } else if (checkEnd()) {
                 revealTilesWin();
-                board.innerHTML += '<div class = "endScreen"><div class = "youWin"> YOU WIN! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
+                //board.innerHTML += '<div class = "endScreen"><div class = "youWin"> YOU WIN! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
             }
         }
         firstClick = false;
@@ -98,7 +100,7 @@ const addCellEventListeners = () => {
 
     gameTable.addEventListener('contextmenu', e => {
         e.preventDefault();
-        if (e.target.classList.contains('undiscovered')) {
+        if (e.target.classList.contains('undiscovered') && !animation) {
             let cell = e.target;
             console.log(cell);
             if (cell.classList.contains('mine')) {

@@ -1,6 +1,7 @@
 let table;
 let discovered;
 let firstClick = true;
+let animation = false;
 //generate the table
 const generateTable = (height, length, bombCount) => {
     table = new Array(height);
@@ -185,6 +186,61 @@ const revealTilesLose = () => {
     }
 }
 
+const revealMines = (x, y) => {
+    let mines = [];
+    for (let i = 0; i < table.length; i++) {
+        for (let j = 0; j < table[i].length; j++) {
+            const element = document.querySelector(`#cell${i * table[i].length + j}`);
+            if (i == x && j == y) {
+                continue;
+            }
+            if (element.childNodes[0].getAttribute('src') === 'images/mine.png') {
+                mines.push(element);
+            }
+        }
+    }
+    mines = arrayShuffle(mines);
+    explodeMines(document.querySelector(`#cell${x * table[x].length + y}`), mines);
+    //revealTilesLose();
+}
+
+const explodeMines = (firstMine, mines) => {
+    animation = true;
+    endMineStatus(firstMine);
+    setTimeout(() => {
+        endMineStatus(mines[0]);
+    }, 1000);
+    setTimeout(() => {
+        endMineStatus(mines[1]);
+    }, 2000);
+    for (let i = 2; i < mines.length; i++) {
+        setTimeout(() => {
+            endMineStatus(mines[i]);
+        }, 2100 + i * 50);
+    }
+    setTimeout(() => {
+        revealTilesLose();
+        var gameOver = [new Audio('sounds/gameOver.mp3'),
+        new Audio('sounds/annoying.mp3'),
+        new Audio('sounds/backToWork.mp3'),
+        new Audio('sounds/gottaHurt.mp3'),
+        new Audio('sounds/shitHappens.mp3'),
+        new Audio('sounds/youSuck.mp3')];
+        gameOver = arrayShuffle(gameOver);
+        gameOver[0].play();
+    }, 3750 + mines.length * 50);
+
+}
+
+const endMineStatus = mine => {
+    var explodeEffect = new Audio('sounds/kaboom.mp3');
+    explodeEffect.play();
+    mine.childNodes[0].classList.add('endCell');
+    let id = mine.getAttribute('id');
+    id = id.substring(4, id.length);
+    replaceStatus(Math.floor(id / table[0].length), id % table[0].length);
+}
+
 const replaceStatusWin = (x, y) => {
     const element = document.querySelector(`#cell${x * table[x].length + y}`);
     let img2 = element.childNodes[1];
@@ -192,6 +248,7 @@ const replaceStatusWin = (x, y) => {
 };
 
 const revealTilesWin = () => {
+    animation = true;
     for (let i = 0; i < table.length; i++) {
         for (let j = 0; j < table[i].length; j++) {
             const element = document.querySelector(`#cell${i * table[i].length + j}`);
@@ -201,6 +258,14 @@ const revealTilesWin = () => {
             }
         }
     }
+    setTimeout(() => {
+        var gameOver = [new Audio('sounds/better.mp3'),
+        new Audio('sounds/holyCow.mp3'),
+        new Audio('sounds/holyShit.mp3'),
+        new Audio('sounds/terminated.mp3')];
+        gameOver = arrayShuffle(gameOver);
+        gameOver[0].play();
+    }, 1000);
 }
 
 const checkEnd = () => {
