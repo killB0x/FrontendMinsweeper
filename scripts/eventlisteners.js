@@ -55,7 +55,18 @@ form.addEventListener('submit', (e) => {
 
 const addCellEventListeners = () => {
     const gameTable = document.querySelector('table');
+    const webPage = document.querySelector('body');
     console.log(gameTable);
+    gameTable.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        if (e.target.classList.contains('undiscovered') && e.button != 2) {
+            e.target.setAttribute('src', 'images/0.png');
+        }
+    });
+    webPage.addEventListener('mouseup', (e) => {
+        //console.log
+        syncUndiscoveredTiles();
+    });
     gameTable.addEventListener('click', (e) => {
         console.log(e.button);
         if (e.target.classList.contains('undiscovered') && !e.target.classList.contains('mine')) {
@@ -83,7 +94,7 @@ const addCellEventListeners = () => {
             }
         }
         firstClick = false;
-    })
+    });
 
     gameTable.addEventListener('contextmenu', e => {
         e.preventDefault();
@@ -100,5 +111,5 @@ const addCellEventListeners = () => {
                 cell.setAttribute('src', 'images/flag.png');
             }
         }
-    })
+    });
 }

@@ -105,8 +105,10 @@ const addImages = () => {
                 }
                 img1.setAttribute('class', 'cellImage');
                 img1.classList.add('hidden');
+                img1.setAttribute('draggable', 'false');
                 img2.setAttribute('src', 'images/notOpen.png');
                 img2.setAttribute('class', 'cellImage');
+                img2.setAttribute('draggable', 'false');
                 img2.classList.add('visible');
                 img2.classList.add('undiscovered');
                 cell.append(img1);
@@ -129,6 +131,17 @@ const removeImages = () => {
     }
 };
 
+
+const syncUndiscoveredTiles = () => {
+    for (let i = 0; i < table.length; i++) {
+        for (let j = 0; j < table[i].length; j++) {
+            let cell = document.querySelector(`#cell${i * table[i].length + j}`);
+            if (!discovered[i][j] && !cell.childNodes[1].classList.contains('mine')) {
+                cell.childNodes[1].setAttribute('src', 'images/notOpen.png');
+            }
+        }
+    }
+}
 //updates the discovered tiles
 const uncoverAll = (x, y) => {
     let cell = document.querySelector(`#cell${x * table[x].length + y}`);
