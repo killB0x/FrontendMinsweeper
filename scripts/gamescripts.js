@@ -177,10 +177,28 @@ const replaceStatus = (x, y) => {
     img1.classList.add('visible');
 };
 
-const revealTiles = () => {
+const revealTilesLose = () => {
     for (let i = 0; i < table.length; i++) {
         for (let j = 0; j < table[i].length; j++) {
             replaceStatus(i, j);
+        }
+    }
+}
+
+const replaceStatusWin = (x, y) => {
+    const element = document.querySelector(`#cell${x * table[x].length + y}`);
+    let img2 = element.childNodes[1];
+    img2.setAttribute('src', 'images/flag.png');
+};
+
+const revealTilesWin = () => {
+    for (let i = 0; i < table.length; i++) {
+        for (let j = 0; j < table[i].length; j++) {
+            const element = document.querySelector(`#cell${i * table[i].length + j}`);
+            console.log(element.childNodes[1].classList);
+            if (element.childNodes[1].classList.contains('undiscovered')) {
+                replaceStatusWin(i, j);
+            }
         }
     }
 }

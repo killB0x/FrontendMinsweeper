@@ -59,7 +59,7 @@ const addCellEventListeners = () => {
     console.log(gameTable);
     gameTable.addEventListener('mousedown', (e) => {
         e.preventDefault();
-        if (e.target.classList.contains('undiscovered') && e.button != 2) {
+        if (e.target.classList.contains('undiscovered') && e.button != 2 && !e.target.classList.contains('mine')) {
             e.target.setAttribute('src', 'images/0.png');
         }
     });
@@ -85,12 +85,12 @@ const addCellEventListeners = () => {
                     uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
                 } else {
                     e.target.parentNode.classList.add('endCell');
+                    revealTilesLose();
                     board.innerHTML += '<div class = "endScreen"><div class = "gameOver"> GAME OVER! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
-                    revealTiles();
                 }
             } else if (checkEnd()) {
+                revealTilesWin();
                 board.innerHTML += '<div class = "endScreen"><div class = "youWin"> YOU WIN! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
-                revealTiles();
             }
         }
         firstClick = false;
