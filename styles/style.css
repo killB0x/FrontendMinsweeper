@@ -58,12 +58,24 @@ table {
     display: none;
 }
 
-.mineTable {
-    border-collapse: collapse;
+.displayTable {
+    border: 1rem solid #b9b9b9;
+}
+
+.borderGhost {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
+    border: 0.2rem outset;
+    border-top-color: #ffffff;
+    border-left-color: #ffffff;
+    border-bottom-color: #b9b9b9;
+    border-right-color: #b9b9b9;
+}
+
+.mineTable {
+    border-collapse: collapse;
 }
 
 .cellImage {
@@ -124,11 +136,37 @@ table {
 }
 
 .timer {
+    padding:0.5rem;
+    margin-left: auto;
+    display: inline-block;
+}
+.timerCell {
     height:3rem;
 }
 .flagCount {
+    padding:0.5rem;
+    display: inline-block;
+}
+.flagCountCell {
     height:3rem;
 }
-.status {
+.statusCell {
     width:3rem;
+}
+.status {
+    padding:0.5rem;
+}
+
+.dataCell {
+    height: 5rem;
+    border: 0.2rem inset;
+    border-top-color: #b9b9b9;
+    border-left-color: #b9b9b9;
+    border-bottom-color: #ffffff;
+    border-right-color: #ffffff;
+}
+
+.borderCell {
+    height:0;
+    border: 0.5rem solid #b9b9b9;
 }

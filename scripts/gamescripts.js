@@ -221,7 +221,7 @@ const explodeMines = (firstMine, mines) => {
     for (let i = 2; i < mines.length; i++) {
         setTimeout(() => {
             endMineStatus(mines[i]);
-        }, 2600 + i * 50);
+        }, 2100 + i * 50);
     }
     setTimeout(() => {
         revealTilesLose();

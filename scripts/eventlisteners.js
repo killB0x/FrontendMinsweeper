@@ -8,7 +8,7 @@ form.addEventListener('submit', (e) => {
 
     form.classList.add('hidden');
     img.classList.add('hidden');
-    let gameTable = '<span id = \'flagCount\'><img class = \'flagCount\' src=\'images/negative.png\'><img class = \'flagCount\' src=\'images/negative.png\'><img class = \'flagCount\' src=\'images/negative.png\'></span><span id = \'status\'><img class=\'status\' src=\'images/smiley.png\'></span><span id = \'timer\'><img class = \'timer\' src=\'images/timer0.png\'><img class = \'timer\' src=\'images/timer0.png\'><img class = \'timer\' src=\'images/timer0.png\'></span><table id = \'gameTable\' class = \'mineTable\'>';
+    let gameTable = '<div class = \'borderGhost\'><table class = \'displayTable\'><tr><td class = \'dataCell\'><span id = \'flagCount\' class = \'flagCount\'><img class = \'flagCountCell\' src=\'images/negative.png\'><img class = \'flagCountCell\' src=\'images/negative.png\'><img class = \'flagCountCell\' src=\'images/negative.png\'></span><span id = \'status\' class=\'status\'><img class=\'statusCell\' src=\'images/smiley.png\'></span><span id = \'timer\' class = \'timer\'><img class = \'timerCell\' src=\'images/timer0.png\'><img class = \'timerCell\' src=\'images/timer0.png\'><img class = \'timerCell\' src=\'images/timer0.png\'></span></td></tr><tr><td class=\'borderCell\'></td></tr><tr><td class = \'dataCell\'><table id = \'gameTable\' class = \'mineTable\'>';
     switch (form.difficulty.value) {
         case 'intermediate':
             console.log('medium');
@@ -50,11 +50,11 @@ form.addEventListener('submit', (e) => {
             generateTable(9, 9, 10);
             break;
     }
-    gameTable += '</table>';
+    gameTable += '</table></td></tr></table></div>';
     board.innerHTML = gameTable;
     addImages();
     addCellEventListeners();
-    startTimer();
+    updateFlagCount();
 })
 
 const addCellEventListeners = () => {
@@ -101,12 +101,15 @@ const addCellEventListeners = () => {
             }
         }
         updateFlagCount();
+        if (firstClick) {
+            startTimer();
+        }
         firstClick = false;
     });
 
     gameTable.addEventListener('contextmenu', e => {
         e.preventDefault();
-        if (e.target.classList.contains('undiscovered') && !animation) {
+        if (e.target.classList.contains('undiscovered') && !animation && !firstClick) {
             let cell = e.target;
             console.log(cell);
             if (cell.classList.contains('mine')) {
