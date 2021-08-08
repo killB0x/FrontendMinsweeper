@@ -8,10 +8,11 @@ form.addEventListener('submit', (e) => {
 
     form.classList.add('hidden');
     img.classList.add('hidden');
-    let gameTable = '<table id = \'gameTable\' class = \'mineTable\'>';
+    let gameTable = '<span id = \'flagCount\'><img class = \'flagCount\' src=\'images/negative.png\'><img class = \'flagCount\' src=\'images/negative.png\'><img class = \'flagCount\' src=\'images/negative.png\'></span><span id = \'status\'><img class=\'status\' src=\'images/smiley.png\'></span><span id = \'timer\'><img class = \'timer\' src=\'images/timer0.png\'><img class = \'timer\' src=\'images/timer0.png\'><img class = \'timer\' src=\'images/timer0.png\'></span><table id = \'gameTable\' class = \'mineTable\'>';
     switch (form.difficulty.value) {
         case 'intermediate':
             console.log('medium');
+            flagCount = 40;
             for (let i = 0; i < 16; i++) {
                 gameTable += '<tr>';
                 for (let j = 0; j < 16; j++) {
@@ -23,6 +24,7 @@ form.addEventListener('submit', (e) => {
             generateTable(16, 16, 40);
             break;
         case 'difficult':
+            flagCount = 99;
             console.log('hard');
             for (let i = 0; i < 16; i++) {
                 gameTable += '<tr>';
@@ -35,6 +37,7 @@ form.addEventListener('submit', (e) => {
             generateTable(16, 30, 99);
             break;
         default:
+            flagCount = 10;
             console.log('easy');
             for (let i = 0; i < 9; i++) {
                 gameTable += '<tr>';
@@ -51,6 +54,7 @@ form.addEventListener('submit', (e) => {
     board.innerHTML = gameTable;
     addImages();
     addCellEventListeners();
+    startTimer();
 })
 
 const addCellEventListeners = () => {
@@ -78,6 +82,7 @@ const addCellEventListeners = () => {
             uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
             if (table[(Math.floor(id / table[0].length))][id % table[0].length] == 'B') {
                 if (firstClick) {
+                    flagCount--;
                     table[(Math.floor(id / table[0].length))][id % table[0].length] = null;
                     fillNumbers();
                     removeImages();
@@ -95,6 +100,7 @@ const addCellEventListeners = () => {
                 //board.innerHTML += '<div class = "endScreen"><div class = "youWin"> YOU WIN! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
             }
         }
+        updateFlagCount();
         firstClick = false;
     });
 
@@ -107,11 +113,14 @@ const addCellEventListeners = () => {
                 cell.classList.remove('mine');
                 cell.classList.add('nomine');
                 cell.setAttribute('src', 'images/notOpen.png');
+                flagCount++;
             } else {
                 cell.classList.remove('nomine');
                 cell.classList.add('mine');
                 cell.setAttribute('src', 'images/flag.png');
+                flagCount--;
             }
+            updateFlagCount();
         }
     });
 }

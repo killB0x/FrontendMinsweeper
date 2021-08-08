@@ -122,3 +122,13 @@ table {
     padding-top:3rem;
     padding-bottom:3rem;
 }
+
+.timer {
+    height:3rem;
+}
+.flagCount {
+    height:3rem;
+}
+.status {
+    width:3rem;
+}
