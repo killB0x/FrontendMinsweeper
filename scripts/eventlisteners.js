@@ -65,7 +65,7 @@ const addCellEventListeners = () => {
     const webPage = document.querySelector('body');
 
     gameTable.addEventListener('mousedown', (e) => {
-
+        e.preventDefault();
         //if the smiley face icon is pressed change it to a version that lookes so
         if (e.target.classList.contains('statusCell')) {
             e.target.setAttribute('src', 'images/smileyPressed.png');
@@ -77,7 +77,7 @@ const addCellEventListeners = () => {
     });
 
     webPage.addEventListener('mouseup', (e) => {
-
+        e.preventDefault();
         //when the smiley face is released reset everything
         if (e.target.classList.contains('statusCell')) {
             location.replace('index.html');
