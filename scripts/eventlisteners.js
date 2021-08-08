@@ -5,13 +5,14 @@ const board = document.querySelector('.board');
 //add event listener for selecting the difficulty and starting the game
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-
+    //make the initial screen elements dissapear
     form.classList.add('hidden');
     img.classList.add('hidden');
+    //initalize html code for the game table
     let gameTable = '<div class = \'borderGhost\'><table class = \'displayTable\'><tr><td class = \'dataCell\'><span id = \'flagCount\' class = \'flagCount\'><img class = \'flagCountCell\' src=\'images/negative.png\'><img class = \'flagCountCell\' src=\'images/negative.png\'><img class = \'flagCountCell\' src=\'images/negative.png\'></span><span id = \'status\' class=\'status\'><img class=\'statusCell\' src=\'images/smiley.png\'></span><span id = \'timer\' class = \'timer\'><img class = \'timerCell\' src=\'images/timer0.png\'><img class = \'timerCell\' src=\'images/timer0.png\'><img class = \'timerCell\' src=\'images/timer0.png\'></span></td></tr><tr><td class=\'borderCell\'></td></tr><tr><td class = \'dataCell\'><table id = \'gameTable\' class = \'mineTable\'>';
+    //modify the size of the table according to the selected difficulty level
     switch (form.difficulty.value) {
         case 'intermediate':
-            console.log('medium');
             flagCount = 40;
             for (let i = 0; i < 16; i++) {
                 gameTable += '<tr>';
@@ -25,7 +26,6 @@ form.addEventListener('submit', (e) => {
             break;
         case 'difficult':
             flagCount = 99;
-            console.log('hard');
             for (let i = 0; i < 16; i++) {
                 gameTable += '<tr>';
                 for (let j = 0; j < 30; j++) {
@@ -38,7 +38,6 @@ form.addEventListener('submit', (e) => {
             break;
         default:
             flagCount = 10;
-            console.log('easy');
             for (let i = 0; i < 9; i++) {
                 gameTable += '<tr>';
                 for (let j = 0; j < 9; j++) {
@@ -51,85 +50,104 @@ form.addEventListener('submit', (e) => {
             break;
     }
     gameTable += '</table></td></tr></table></div>';
+    //append the game table to the div element
     board.innerHTML = gameTable;
+    //call method to add imaged to cells
     addImages();
+    //call method to add event listeners to all cells
     addCellEventListeners();
+    //call method to update the flagged cell count
     updateFlagCount();
 })
 
 const addCellEventListeners = () => {
     const gameTable = document.querySelector('table');
     const webPage = document.querySelector('body');
-    console.log(gameTable);
+
     gameTable.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        console.log("BRUH", e.target);
+
+        //if the smiley face icon is pressed change it to a version that lookes so
         if (e.target.classList.contains('statusCell')) {
             e.target.setAttribute('src', 'images/smileyPressed.png');
         }
+        //if conditions are met and a cell is pressed, makes it look pressed down
         if (!animation && e.target.classList.contains('undiscovered') && e.button != 2 && !e.target.classList.contains('mine')) {
             e.target.setAttribute('src', 'images/0.png');
         }
     });
+
     webPage.addEventListener('mouseup', (e) => {
+
+        //when the smiley face is released reset everything
         if (e.target.classList.contains('statusCell')) {
             location.replace('index.html');
         }
+        //when the mouse button is released and the button is not pressed the images are reset to their intial state
         if (!animation) {
             syncUndiscoveredTiles();
         }
     });
     gameTable.addEventListener('click', (e) => {
-        console.log(e.button);
+        //click events will happen only if an animation has not started, the cell is not discovered and the cell is not flagged 
         if (!animation && e.target.classList.contains('undiscovered') && !e.target.classList.contains('mine')) {
-            console.log(e);
+            //get the id of the cell
             let id = e.target.parentNode.getAttribute('id');
             id = id.substring(4, id.length);
-            console.log(table[(Math.floor(id / table[0].length))][id % table[0].length]);
+            //method to uncover all neighbouring cells according to the algorithm
             uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
+            //if cell pressed has a bomb
             if (table[(Math.floor(id / table[0].length))][id % table[0].length] == 'B') {
+                //if it is the first click, the bomb is removed and the images and digits are refactored
                 if (firstClick) {
                     flagCount--;
                     table[(Math.floor(id / table[0].length))][id % table[0].length] = null;
                     fillNumbers();
                     removeImages();
                     addImages();
-                    console.log(table);
                     uncoverAll(Math.floor(id / table[0].length), id % table[0].length);
+                    //otherwise end the game
                 } else {
                     e.target.parentNode.classList.add('endCell');
-                    //revealTilesLose();
+                    //call method for ending the game
                     revealMines(Math.floor(id / table[0].length), id % table[0].length);
-                    //board.innerHTML += '<div class = "endScreen"><div class = "gameOver"> GAME OVER! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
                 }
+                //after every opened cell that is not a bomb check if the game has ended
             } else if (checkEnd()) {
+                //call method for the win ending if the last pressed cell is not a bomb
                 revealTilesWin();
-                //board.innerHTML += '<div class = "endScreen"><div class = "youWin"> YOU WIN! </div> <a href="index.html"><div class="homeButton"><p class = "center">Home</p></div></a></div>';
             }
         }
+        //after every click update the flag count
         updateFlagCount();
+        //if the click was the first one, start the timer
         if (firstClick) {
             startTimer();
         }
         firstClick = false;
     });
 
+    //events for right clicking
     gameTable.addEventListener('contextmenu', e => {
+        //prevent showing the menu
         e.preventDefault();
+        //if the cell is not discovered, an animation has not started and the first click has occured
+        //then the flag status of the mine is changed
         if (e.target.classList.contains('undiscovered') && !animation && !firstClick) {
             let cell = e.target;
-            console.log(cell);
+            //if the cell is flagged, remove the flag
             if (cell.classList.contains('mine')) {
                 cell.classList.remove('mine');
                 cell.classList.add('nomine');
                 cell.setAttribute('src', 'images/notOpen.png');
                 flagCount++;
+                //if the cell is not flagged, add the flag
             } else {
                 cell.classList.remove('nomine');
                 cell.classList.add('mine');
                 cell.setAttribute('src', 'images/flag.png');
                 flagCount--;
             }
+            //update the flag count afterwards
             updateFlagCount();
         }
     });
