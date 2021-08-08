@@ -9,9 +9,9 @@ a {
 }
 
 td {
-    border: 1px solid black;
-    height: 2rem;
-    width: 2rem;
+    border: 0.005px solid black;
+    height: 1.5rem;
+    width: 1.55rem;
     font-size: 0;
     background-color:#b9b9b9;
     padding:0;
@@ -25,7 +25,7 @@ table {
     border-spacing: 0;
 }
 .logo {
-    width:15rem;
+    width:10rem;
     margin-top: 4rem;
     margin-bottom: 4rem;
 }
@@ -35,7 +35,7 @@ table {
     position:relative;
     margin: 2rem 20rem;
     background-color: rgb(148, 167, 167);
-    height: 45rem;
+    height: 35rem;
     border: 3px solid black;
 }
 
@@ -59,7 +59,7 @@ table {
 }
 
 .displayTable {
-    border: 1rem solid #b9b9b9;
+    border: 0.5rem solid #b9b9b9;
 }
 
 .borderGhost {
@@ -74,13 +74,9 @@ table {
     border-right-color: #b9b9b9;
 }
 
-.mineTable {
-    border-collapse: collapse;
-}
-
 .cellImage {
-    height: 2rem;
-    width: 2rem;
+    height: 1.5rem;
+    width: 1.5rem;
 }
 
 .hidden {
@@ -141,24 +137,24 @@ table {
     display: inline-block;
 }
 .timerCell {
-    height:3rem;
+    height:2rem;
 }
 .flagCount {
     padding:0.5rem;
     display: inline-block;
 }
 .flagCountCell {
-    height:3rem;
+    height:2rem;
 }
 .statusCell {
-    width:3rem;
+    width:2rem;
 }
 .status {
     padding:0.5rem;
 }
 
 .dataCell {
-    height: 5rem;
+    height: 3.5rem;
     border: 0.2rem inset;
     border-top-color: #b9b9b9;
     border-left-color: #b9b9b9;
@@ -168,5 +164,5 @@ table {
 
 .borderCell {
     height:0;
-    border: 0.5rem solid #b9b9b9;
+    border: 0.25rem solid #b9b9b9;
 }

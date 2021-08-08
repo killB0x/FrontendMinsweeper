@@ -63,11 +63,18 @@ const addCellEventListeners = () => {
     console.log(gameTable);
     gameTable.addEventListener('mousedown', (e) => {
         e.preventDefault();
+        console.log("BRUH", e.target);
+        if (e.target.classList.contains('statusCell')) {
+            e.target.setAttribute('src', 'images/smileyPressed.png');
+        }
         if (!animation && e.target.classList.contains('undiscovered') && e.button != 2 && !e.target.classList.contains('mine')) {
             e.target.setAttribute('src', 'images/0.png');
         }
     });
     webPage.addEventListener('mouseup', (e) => {
+        if (e.target.classList.contains('statusCell')) {
+            location.replace('index.html');
+        }
         if (!animation) {
             syncUndiscoveredTiles();
         }
